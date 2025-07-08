@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.unesp.rc.MSResidentG1.entity.Resident;
 
-public interface ResidenteRepository extends JpaRepository<Resident, Long> {
+public interface ResidentRepository extends JpaRepository<Resident, Long> {
 
     Resident findByCpf(String cpf);
 }
