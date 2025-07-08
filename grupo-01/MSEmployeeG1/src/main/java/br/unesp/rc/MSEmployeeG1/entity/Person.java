@@ -49,7 +49,7 @@ public class Person implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "contact_contactId")
     private Contact contact;
-    private Acess acess;
+    private Access acess;
 
 
     @OneToMany(

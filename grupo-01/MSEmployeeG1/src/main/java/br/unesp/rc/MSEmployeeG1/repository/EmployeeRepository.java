@@ -6,4 +6,5 @@ import br.unesp.rc.MSEmployeeG1.entity.Employee;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     Employee findByCpf(String cpf);
+    Employee findByEnrollmentNumber(int enrollmentNumber);
 }

@@ -16,7 +16,7 @@ public class MsEmployeeG1Application implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception{
-		Employee entity = InstanceGenerator.getEmployee("123.456.789-00", "bremedmil1");
+		Employee entity = InstanceGenerator.getEmployee("647.786.123-00", "michaelscott");
 		System.out.println("\n" + entity + "\n");
 		
 	}

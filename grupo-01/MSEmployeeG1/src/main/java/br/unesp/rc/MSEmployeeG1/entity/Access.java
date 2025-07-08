@@ -14,7 +14,7 @@ import lombok.ToString;
 @Setter
 @EqualsAndHashCode
 @ToString
-public class Acess implements Serializable {
+public class Access implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -25,11 +25,11 @@ public class Acess implements Serializable {
     private String password;
 
 
-    public Acess(String user, String password) {
+    public Access(String user, String password) {
         this.user = user;
         this.password = password;
     }
-    public Acess(){
+    public Access(){
 
     }
 
