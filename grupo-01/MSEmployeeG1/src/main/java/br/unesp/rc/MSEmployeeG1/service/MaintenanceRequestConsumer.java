@@ -4,7 +4,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 
 import br.unesp.rc.MSEmployeeG1.dto.MaintenanceRequestDTO;
-import br.unesp.rc.MSEmployeeG1.utils.RabbitMQConfig;
+
 
 @Service
 public class MaintenanceRequestConsumer {
