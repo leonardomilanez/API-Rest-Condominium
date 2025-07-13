@@ -8,10 +8,9 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * Here, MaintenanceRequestDTO will produce a message that has
- * the follow structure.
+ * DTO used to represent a maintenance request that will be sent
+ * from the MSResident service to the MSEmployee service via RabbitMQ.
  */
-
 
 @Getter
 @Setter
@@ -22,6 +21,5 @@ public class MaintenanceRequestDTO implements Serializable {
     private String description;
     private String residentName;
 
-    //Should we use the resident's name or their id?
-    //private Long residentId; 
+
 }

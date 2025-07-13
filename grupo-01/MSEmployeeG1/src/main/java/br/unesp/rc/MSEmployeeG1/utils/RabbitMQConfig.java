@@ -11,7 +11,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Configuration for RabbitMQ to produce Queues, Exchange and Binding
+ * Create and configures a queue
+ * Create an direct exchange
+ * Associate a queue with an exchange using a routing key
+ * And define how the messages will be converted (through Jackson)
  */
 
 @Configuration

@@ -6,11 +6,12 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * The main goal of this DTO is to receive the request for maintenance
- * of a common area of the condominium from MSResident through the API.
+ * DTO used to receive maintenance request messages from the MSResident service
+ * through the RabbitMQ messaging system.
+ *
+ * This object represents the content of the message sent via RabbitMQ to the
+ * MSEmployee service when a resident requests maintenance for a common area.
  */
-
-
 
 @Getter
 @Setter

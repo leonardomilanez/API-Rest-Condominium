@@ -9,6 +9,13 @@ import org.springframework.web.bind.annotation.RestController;
 import br.unesp.rc.MSResidentG1.dto.MaintenanceRequestDTO;
 import br.unesp.rc.MSResidentG1.service.MaintenanceRequestService;
 
+/*
+ * REST controller responsible for handling maintenance request submissions.
+ * 
+ */
+
+
+
 @RestController
 @RequestMapping("/maintenance")
 public class MaintenanceRequestResource {

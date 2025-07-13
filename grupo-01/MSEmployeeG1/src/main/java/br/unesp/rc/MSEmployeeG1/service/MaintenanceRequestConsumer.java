@@ -5,6 +5,12 @@ import org.springframework.stereotype.Service;
 
 import br.unesp.rc.MSEmployeeG1.dto.MaintenanceRequestDTO;
 
+/**
+ * The purpose of this class is to consume RabbitMQ's messages. It will receive
+ * notifications send by MSResident
+ */
+
+
 
 @Service
 public class MaintenanceRequestConsumer {

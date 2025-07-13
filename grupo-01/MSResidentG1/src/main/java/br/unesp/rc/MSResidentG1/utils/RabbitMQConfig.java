@@ -9,7 +9,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Configuration for RabbitMQ to produce Queues, Exchange and Binding
+ * Configuration class for RabbitMQ integration in the MSResident service.
+ * 
+ * This class defines the RabbitMQ DirectExchange, message converters, and
+ * the RabbitTemplate bean used to send messages to RabbitMQ.
  */
 
 @Configuration
