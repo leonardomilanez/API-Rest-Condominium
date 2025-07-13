@@ -1,6 +1,7 @@
 package br.unesp.rc.MSResidentG1.dto;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -17,6 +18,7 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class MaintenanceRequestDTO implements Serializable {
+    private UUID id = UUID.randomUUID();
     private String area;
     private String description;
     private String residentName;

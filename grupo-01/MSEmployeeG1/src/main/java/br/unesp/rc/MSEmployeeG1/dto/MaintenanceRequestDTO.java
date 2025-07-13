@@ -1,5 +1,8 @@
 package br.unesp.rc.MSEmployeeG1.dto;
 
+import java.io.Serializable;
+import java.util.UUID;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,17 +20,13 @@ import lombok.ToString;
 @Setter
 @ToString
 @EqualsAndHashCode
-public class MaintenanceRequestDTO {
+public class MaintenanceRequestDTO implements Serializable {
+    private UUID id = UUID.randomUUID();
     private String area;
     private String residentName;
     private String description;
 
 
-    public MaintenanceRequestDTO(String area, String residentName, String description) {
-        this.area = area;
-        this.residentName = residentName;
-        this.description = description;
-    }
 
 
 }

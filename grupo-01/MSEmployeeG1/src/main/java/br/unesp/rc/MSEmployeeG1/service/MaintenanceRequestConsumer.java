@@ -1,5 +1,10 @@
 package br.unesp.rc.MSEmployeeG1.service;
 
+import java.util.Collection;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 
@@ -10,16 +15,25 @@ import br.unesp.rc.MSEmployeeG1.dto.MaintenanceRequestDTO;
  * notifications send by MSResident
  */
 
-
-
 @Service
 public class MaintenanceRequestConsumer {
 
+    private final Map<UUID, MaintenanceRequestDTO> receivedRequests = new ConcurrentHashMap<>();
+
     @RabbitListener(queues = "maintenance.request.queue")
     public void receiveMaintenanceRequest(MaintenanceRequestDTO request) {
-        System.out.println("Received maintenance request:");
-        System.out.println("Area: " + request.getArea());
-        System.out.println("Description: " + request.getDescription());
-        System.out.println("Resident name: " + request.getResidentName());
+        receivedRequests.put(request.getId(), request);
+    }
+
+    public Collection<MaintenanceRequestDTO> getAllRequests() {
+        return receivedRequests.values();
+    }
+
+    public MaintenanceRequestDTO getById(UUID id) {
+        return receivedRequests.get(id);
+    }
+
+    public boolean deleteById(UUID id) {
+        return receivedRequests.remove(id) != null;
     }
 }

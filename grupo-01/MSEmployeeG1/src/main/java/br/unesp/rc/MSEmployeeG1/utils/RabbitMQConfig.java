@@ -23,10 +23,6 @@ public class RabbitMQConfig {
     public static final String EXCHANGE = "maintenance.exchange";
     public static final String ROUTING_KEY = "maintenance.request";
 
-    @Bean
-    public MessageConverter jsonMessageConverter() {
-        return new Jackson2JsonMessageConverter();
-    }
 
     @Bean
     public Queue maintenanceRequestQueue() {
@@ -44,4 +40,10 @@ public class RabbitMQConfig {
                 .to(maintenanceExchange)
                 .with("maintenance.request");
     }
+
+    @Bean
+    public MessageConverter jsonMessageConverter() {
+        return new Jackson2JsonMessageConverter();
+    }
+
 }
