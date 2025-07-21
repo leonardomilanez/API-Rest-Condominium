@@ -13,14 +13,17 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class ResidentDTO {
+
     private Long id;
     private int idResident;
     private String name;
     private Date birthDate;
     private String type;
     private List<Long> unitIds;
+
     public ResidentDTO() {
     }
+
     public ResidentDTO(Long id, int idResident, String name, Date birthDate, String type, List<Long> unitIds) {
         this.id = id;
         this.idResident = idResident;
@@ -30,5 +33,4 @@ public class ResidentDTO {
         this.unitIds = unitIds;
     }
 
-    
 }

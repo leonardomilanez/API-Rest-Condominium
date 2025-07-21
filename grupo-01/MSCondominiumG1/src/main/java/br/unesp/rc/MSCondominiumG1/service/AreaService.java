@@ -13,7 +13,7 @@ import br.unesp.rc.MSCondominiumG1.repository.AreaRepository;
 @Component
 @Service
 public class AreaService {
-    
+
     @Autowired
     private AreaRepository repository;
 

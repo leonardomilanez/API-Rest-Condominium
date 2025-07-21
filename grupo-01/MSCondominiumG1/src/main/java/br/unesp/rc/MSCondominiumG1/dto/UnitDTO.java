@@ -11,14 +11,17 @@ import lombok.ToString;
 @EqualsAndHashCode
 
 public class UnitDTO {
+
     private Long id;
     private String idUnit;
     private String location;
     private double sizeSM;
     private Long condominiumId;
     private Long residentId;
+
     public UnitDTO() {
     }
+
     public UnitDTO(Long id, String idUnit, String location, double sizeSM, Long condominiumId, Long residentId) {
         this.id = id;
         this.idUnit = idUnit;
@@ -28,5 +31,4 @@ public class UnitDTO {
         this.residentId = residentId;
     }
 
-    
 }

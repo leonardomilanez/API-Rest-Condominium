@@ -36,9 +36,9 @@ public class Condominium implements Serializable {
     @Enumerated(EnumType.STRING)
     private CondominiumType type;
 
-    @OneToMany(mappedBy = "condominium", cascade = CascadeType.ALL)
-    private List<Unit> units;
-
-    @OneToMany(mappedBy = "condominium", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "condominium", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Area> areas;
+
+    @OneToMany(mappedBy = "condominium", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Unit> units;
 }

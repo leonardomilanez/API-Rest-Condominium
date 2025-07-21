@@ -2,6 +2,8 @@ package br.unesp.rc.MSCondominiumG1.entity;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -36,5 +38,6 @@ public class Area implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "condominium_id")
+    @JsonIgnore
     private Condominium condominium;
 }

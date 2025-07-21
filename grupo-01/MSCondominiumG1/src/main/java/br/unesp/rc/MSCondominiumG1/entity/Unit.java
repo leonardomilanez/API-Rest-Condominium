@@ -2,6 +2,8 @@ package br.unesp.rc.MSCondominiumG1.entity;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,13 +34,14 @@ public class Unit implements Serializable {
     private String location;
     private double sizeSM;
 
-    // CORREÇÃO: Adicionado o campo 'condominium' com @ManyToOne para corresponder ao 'mappedBy' em Condominium.java
-    @ManyToOne
-    @JoinColumn(name = "condominium_id")
-    private Condominium condominium;
-
-    // CORREÇÃO: Adicionado o campo 'resident' com @ManyToOne para corresponder ao 'mappedBy' em Resident.java
+    // CORREÇÃO: Adicionado o campo 'resident' com @ManyToOne para corresponder ao
+    // 'mappedBy' em Resident.java
     @ManyToOne
     @JoinColumn(name = "resident_id")
     private Resident resident;
+
+    @ManyToOne
+    @JoinColumn(name = "condominium_id")
+    @JsonIgnore
+    private Condominium condominium;
 }

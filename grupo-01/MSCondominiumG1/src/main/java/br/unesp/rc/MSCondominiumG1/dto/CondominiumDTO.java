@@ -12,13 +12,16 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 public class CondominiumDTO {
+
     private Long id;
     private String name;
     private String type;
     private List<Long> unitIds;
     private List<Long> areaIds;
+
     public CondominiumDTO() {
     }
+
     public CondominiumDTO(Long id, String name, String type, List<Long> unitIds, List<Long> areaIds) {
         this.id = id;
         this.name = name;
@@ -26,7 +29,5 @@ public class CondominiumDTO {
         this.unitIds = unitIds;
         this.areaIds = areaIds;
     }
-
-    
 
 }

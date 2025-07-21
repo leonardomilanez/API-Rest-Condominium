@@ -40,7 +40,6 @@ public class Resident implements Serializable {
     @Enumerated(EnumType.STRING)
     private ResidentType type;
 
-    // RELAÇÃO DO UML DO MSCONDOMINIUM: Um Residente para Muitas Unidades
     @OneToMany(mappedBy = "resident", cascade = CascadeType.ALL)
     private List<Unit> units;
 }
