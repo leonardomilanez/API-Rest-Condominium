@@ -1,5 +1,6 @@
 package br.unesp.rc.MSCondominiumG1.entity;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
@@ -18,13 +19,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "Condominium")
+@Table(name = "condominium")
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Condominium implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -41,4 +42,24 @@ public class Condominium implements Serializable {
 
     @OneToMany(mappedBy = "condominium", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Unit> units;
+
+    public void addArea(Area area) {
+        areas.add(area);
+        area.setCondominium(this);
+    }
+
+    public void removeArea(Area area) {
+        areas.remove(area);
+        area.setCondominium(null);
+    }
+
+    public void addUnit(Unit unit) {
+        units.add(unit);
+        unit.setCondominium(this);
+    }
+
+    public void removeUnit(Unit unit) {
+        units.remove(unit);
+        unit.setCondominium(null);
+    }
 }

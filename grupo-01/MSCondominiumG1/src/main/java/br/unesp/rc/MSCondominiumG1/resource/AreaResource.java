@@ -2,15 +2,17 @@ package br.unesp.rc.MSCondominiumG1.resource;
 
 import java.util.List;
 
+import br.unesp.rc.MSCondominiumG1.dto.AreaCreateDTO;
+import br.unesp.rc.MSCondominiumG1.dto.AreaPatchDTO;
+import jakarta.validation.Valid;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping; // Using repository directly as in tutorials
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import br.unesp.rc.MSCondominiumG1.dto.AreaDTO;
 import br.unesp.rc.MSCondominiumG1.dto.assembler.AreaAssembler;
@@ -33,65 +35,44 @@ public class AreaResource {
     private CondominiumRepository condominiumRepository;
 
     @GetMapping("/area")
-    public List<Area> getAllAreas() {
-        return areaService.findAll();
+    public ResponseEntity<Page<AreaDTO>> getAllAreas(
+            @ParameterObject @PageableDefault(page = 0, size = 10, sort = "name") Pageable pageable) {
+
+        Page<Area> areaPage = areaService.findAll(pageable);
+        Page<AreaDTO> dtoPage = areaPage.map(AreaAssembler::entityToDto);
+
+        return ResponseEntity.ok(dtoPage);
     }
 
     @GetMapping("/area/{id}")
-    public Area getAreaById(@PathVariable(value = "id") Long id) {
-        return areaService.findById(id);
+    public ResponseEntity<AreaDTO> getAreaById(@PathVariable(value = "id") Long id) {
+        Area area = areaService.findById(id);
+        return ResponseEntity.ok(AreaAssembler.entityToDto(area));
     }
 
+
     @DeleteMapping("/area/{id}")
-    public boolean delete(@PathVariable(value = "id") Long id) {
-        boolean deleted = false;
-        Area area = areaService.findById(id);
-        if (area != null) {
-            areaService.delete(area);
-            deleted = true;
-        }
-        return deleted;
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+        areaService.deleteById(id);
     }
 
     @PostMapping("/area")
-    public boolean saveArea(@RequestBody AreaDTO areaDto) {
-        boolean inserted = false;
+    public ResponseEntity<AreaDTO> create(@Valid @RequestBody AreaCreateDTO dto) {
 
-        // The logic to find the parent entity is done here in the resource, as per the tutorial style.
-        if (areaDto.getCondominiumId() != null) {
-            Condominium parentCondo = condominiumRepository.findById(areaDto.getCondominiumId()).orElse(null);
+        Area created = areaService.create(dto);
 
-            if (parentCondo != null) {
-                Area area = AreaAssembler.dtoToEntityModel(areaDto);
-
-                // We add the new area to the parent's list before saving the parent.
-                parentCondo.getAreas().add(area);
-                condominiumRepository.save(parentCondo); // Saving the parent will cascade and save the new area.
-                inserted = true;
-            }
-        }
-        return inserted;
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(AreaAssembler.entityToDto(created));
     }
 
-    @PutMapping("/area")
-    public boolean update(@RequestBody AreaDTO areaDto) {
-        boolean updated = false;
+    @PatchMapping("/area/{id}")
+    public ResponseEntity<Void> patch(@Valid @RequestBody AreaPatchDTO dto, @PathVariable(value = "id") Long id) {
+        Area area = areaService.findById(id);
+        AreaMapper.partialUpdate(area, dto);
+        areaService.save(area);
 
-        if (areaDto.getId() == null) {
-            return false; // Cannot update without an ID
-        }
-
-        Area existingArea = areaService.findById(areaDto.getId());
-
-        if (existingArea != null) {
-            Area newDetails = AreaAssembler.dtoToEntityModel(areaDto);
-            AreaMapper.update(existingArea, newDetails);
-
-            Area updatedArea = areaService.update(existingArea);
-            if (updatedArea != null) {
-                updated = true;
-            }
-        }
-        return updated;
+        return ResponseEntity.noContent().build();
     }
 }

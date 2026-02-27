@@ -23,7 +23,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Resident implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -42,4 +41,14 @@ public class Resident implements Serializable {
 
     @OneToMany(mappedBy = "resident", cascade = CascadeType.ALL)
     private List<Unit> units;
+
+    public void addUnit(Unit unit) {
+        units.add(unit);
+        unit.setResident(this);
+    }
+
+    public void removeUnit(Unit unit) {
+        units.remove(unit);
+        unit.setResident(null);
+    }
 }

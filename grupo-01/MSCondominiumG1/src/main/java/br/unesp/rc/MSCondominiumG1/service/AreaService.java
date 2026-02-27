@@ -3,12 +3,22 @@ package br.unesp.rc.MSCondominiumG1.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.unesp.rc.MSCondominiumG1.dto.AreaCreateDTO;
+import br.unesp.rc.MSCondominiumG1.dto.assembler.AreaAssembler;
+import br.unesp.rc.MSCondominiumG1.entity.Condominium;
+import br.unesp.rc.MSCondominiumG1.exception.ResourceNotFoundException;
+import br.unesp.rc.MSCondominiumG1.repository.CondominiumRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import br.unesp.rc.MSCondominiumG1.entity.Area;
 import br.unesp.rc.MSCondominiumG1.repository.AreaRepository;
+import org.springframework.web.server.ResponseStatusException;
 
 @Component
 @Service
@@ -17,54 +27,42 @@ public class AreaService {
     @Autowired
     private AreaRepository repository;
 
+    @Autowired
+    private CondominiumRepository condominiumRepository;
+
     public AreaService() {
 
     }
 
     public Area save(Area entity) {
-        Area persistedEntity = null;
-
-        if (repository != null) {
-            persistedEntity = repository.save(entity);
-        }
-
-        return persistedEntity;
+        return repository.save(entity);
     }
 
     public Area findById(Long id) {
-        Area foundEntity = null;
-
-        if (repository != null) {
-            foundEntity = repository.findById(id).orElse(null);
-        }
-
-        return foundEntity;
+        return repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Área com ID " + id + " não encontrada."));
     }
 
-    public void delete(Area entity) {
-        if (repository != null) {
-            repository.delete(entity);
-        }
+    public Page<Area> findAll(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
-    public Area update(Area entity) {
-        Area persistedEntity = null;
-
-        if (repository != null) {
-            persistedEntity = repository.save(entity);
-        }
-
-        return persistedEntity;
+    public void deleteById(Long id) {
+        Area area = findById(id);
+        repository.delete(area);
     }
 
-    public List<Area> findAll() {
-        List<Area> list = null;
-
-        if (repository != null) {
-            list = new ArrayList<>();
-            list = repository.findAll();
+    public Area create(AreaCreateDTO dto) {
+        Condominium condoRef;
+        try {
+            condoRef = condominiumRepository.getReferenceById(dto.getCondominiumId());
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Condomínio não encontrado");
         }
+        Area area = AreaAssembler.dtoToEntityModel(dto);
 
-        return list;
+        area.setCondominium(condoRef);
+
+        return repository.save(area);
     }
 }

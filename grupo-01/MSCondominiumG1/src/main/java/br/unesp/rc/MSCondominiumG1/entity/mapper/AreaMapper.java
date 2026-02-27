@@ -1,9 +1,15 @@
 package br.unesp.rc.MSCondominiumG1.entity.mapper;
 
+import br.unesp.rc.MSCondominiumG1.dto.AreaPatchDTO;
+import br.unesp.rc.MSCondominiumG1.dto.CommonAreaPatchDTO;
+import br.unesp.rc.MSCondominiumG1.dto.RentableAreaPatchDTO;
+import br.unesp.rc.MSCondominiumG1.dto.SpecificAreaPatchDTO;
 import br.unesp.rc.MSCondominiumG1.entity.Area;
 import br.unesp.rc.MSCondominiumG1.entity.Common;
 import br.unesp.rc.MSCondominiumG1.entity.RentableArea;
 import br.unesp.rc.MSCondominiumG1.entity.Specific;
+
+import java.util.function.Consumer;
 
 public class AreaMapper {
 
@@ -19,34 +25,30 @@ public class AreaMapper {
      *
      * * @param existingArea The entity fetched from the database to be
      * updated.
-     * @param newDetails An entity object containing the new data.
+     * @param dto An entity object containing the new data.
      */
-    public static void update(Area existingArea, Area newDetails) {
-        // First, update the fields that are common to all Area types.
-        existingArea.setName(newDetails.getName());
-        existingArea.setSizeSM(newDetails.getSizeSM());
+    public static void partialUpdate(Area existingArea, AreaPatchDTO dto) {
 
-        // Check if the area is a 'Common' area and update its specific fields.
-        if (existingArea instanceof Common && newDetails instanceof Common) {
-            Common existingCommon = (Common) existingArea;
-            Common newCommonDetails = (Common) newDetails;
-            existingCommon.setLocation(newCommonDetails.getLocation());
+        // Atualiza campos da classe pai
+        setIfNotNull(dto.getName(), existingArea::setName);
+        setIfNotNull(dto.getSizeSM(), existingArea::setSizeSM);
+
+        // Atualiza campos específicos garantindo que a Entidade e o DTO batem
+        if (existingArea instanceof RentableArea r && dto instanceof RentableAreaPatchDTO rDto) {
+            setIfNotNull(rDto.getLocation(), r::setLocation);
+            setIfNotNull(rDto.getCapacity(), r::setCapacity);
+            setIfNotNull(rDto.getValue(), r::setValue);
+
+        } else if (existingArea instanceof Common c && dto instanceof CommonAreaPatchDTO cDto) {
+            setIfNotNull(cDto.getLocation(), c::setLocation);
+
+        } else if (existingArea instanceof Specific s && dto instanceof SpecificAreaPatchDTO sDto) {
+            setIfNotNull(sDto.getDescription(), s::setDescription);
         }
 
-        // Check if the area is a 'Specific' area and update its specific fields.
-        if (existingArea instanceof Specific && newDetails instanceof Specific) {
-            Specific existingSpecific = (Specific) existingArea;
-            Specific newSpecificDetails = (Specific) newDetails;
-            existingSpecific.setDescription(newSpecificDetails.getDescription());
-        }
+    }
 
-        // Check if the area is a 'RentableArea' and update its specific fields.
-        // This check is nested because a RentableArea is also a Common area.
-        if (existingArea instanceof RentableArea && newDetails instanceof RentableArea) {
-            RentableArea existingRentable = (RentableArea) existingArea;
-            RentableArea newRentableDetails = (RentableArea) newDetails;
-            existingRentable.setCapacity(newRentableDetails.getCapacity());
-            existingRentable.setValue(newRentableDetails.getValue());
-        }
+    private static <T> void setIfNotNull(T value, Consumer<T> setter) {
+        if (value != null) setter.accept(value);
     }
 }

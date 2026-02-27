@@ -10,14 +10,11 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
+@Table(name = "specific_area")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-@Table(name = "specific_area")
-@ToString(callSuper = true)
-
 public class Specific extends Area {
 
     private static final long serialVersionUID = 1L;

@@ -4,14 +4,7 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -25,8 +18,6 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
-@ToString
 public class Area implements Serializable {
 
     @Id
@@ -36,8 +27,8 @@ public class Area implements Serializable {
     private String name;
     private int sizeSM;
 
-    @ManyToOne
-    @JoinColumn(name = "condominium_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "condominium_id", nullable = false)
     @JsonIgnore
     private Condominium condominium;
 }

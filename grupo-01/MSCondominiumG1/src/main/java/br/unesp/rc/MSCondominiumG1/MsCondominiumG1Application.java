@@ -24,12 +24,8 @@ public class MsCondominiumG1Application implements CommandLineRunner {
     public void run(String... args) throws Exception {
         Condominium entity = InstanceGenerator.getCondominium("Central Park Tower", CondominiumType.APARTMENT);
 
-
-        entity.getAreas().forEach(area -> area.setCondominium(entity));
-        entity.getUnits().forEach(unit -> unit.setCondominium(entity));
-
         condominiumRepository.save(entity); 
-        System.out.println("\nCondomínio salvo com sucesso.\n");
+        System.out.println("\nCondomínio e suas dependências salvos com sucesso.\n");
     }
 
 }

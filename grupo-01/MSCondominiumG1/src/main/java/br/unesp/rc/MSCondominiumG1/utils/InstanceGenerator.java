@@ -39,8 +39,8 @@ public class InstanceGenerator {
         // We DON'T call area2.setCondominium() anymore.
 
         // Associate areas by adding them to the parent's list
-        condominium.getAreas().add(area1);
-        condominium.getAreas().add(area2);
+        condominium.addArea(area1);
+        condominium.addArea(area2);
 
         // Create example units
         Unit unit1 = new Unit();
@@ -56,8 +56,8 @@ public class InstanceGenerator {
         // We DON'T call unit2.setCondominium() anymore.
 
         // Associate units by adding them to the parent's list
-        condominium.getUnits().add(unit1);
-        condominium.getUnits().add(unit2);
+        condominium.addUnit(unit1);
+        condominium.addUnit(unit2);
 
         return condominium;
     }
